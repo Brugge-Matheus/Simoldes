@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  molde: one
+  tipo_manutencao: MyString
+  data_manutencao: 2025-05-07
+  descricao: MyText
+  custo: 9.99
+  responsavel: MyString
+
+two:
+  molde: two
+  tipo_manutencao: MyString
+  data_manutencao: 2025-05-07
+  descricao: MyText
+  custo: 9.99
+  responsavel: MyString

@@ -1,0 +1,21 @@
+<!-- No seu arquivo app/views/layouts/application.html.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Seu Aplicativo</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <script src="<%= asset_path 'custom/utils.js' %>" defer></script>
+  <script src="<%= asset_path 'custom/main.js' %>" defer></script>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="is-preload">
+<%= yield %>
+</body>
+</html>

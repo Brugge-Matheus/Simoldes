@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  molde: one
+  nome_processo: MyString
+  data_inicio: 2025-05-07
+  data_prevista_fim: 2025-05-07
+  data_fim: 2025-05-07
+  status: MyString
+  responsavel: MyString
+  observacoes: MyText
+
+two:
+  molde: two
+  nome_processo: MyString
+  data_inicio: 2025-05-07
+  data_prevista_fim: 2025-05-07
+  data_fim: 2025-05-07
+  status: MyString
+  responsavel: MyString
+  observacoes: MyText

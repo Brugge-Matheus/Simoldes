@@ -1,0 +1,20 @@
+<div id="wrapper">
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+      <!-- Header -->
+      <header id="header" class="mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3>Nova Manutenção</h3>
+          <%= link_to manutencaos_path, class: "btn btn-outline-secondary btn-sm" do %>
+            <i class="fas fa-arrow-left me-1"></i> Listagem
+          <% end %>
+        </div>
+      </header>
+
+      <%= render "form", manutencao: @manutencao %>
+    </div>
+  </div>
+
+  <%= render "shared/sidebar" %>
+</div>

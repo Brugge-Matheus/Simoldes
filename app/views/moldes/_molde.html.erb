@@ -1,0 +1,73 @@
+<div id="<%= dom_id molde %>" class="box" style="border-radius: 5px; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+  <div style="border-bottom: 2px solid #1c5846; padding-bottom: 15px; margin-bottom: 25px;">
+    <h2 style="color: #1c5846; margin: 0; font-size: 1.7em;">Código: <%= molde.codigo %></h2>
+  </div>
+
+  <div class="row gtr-uniform">
+    <div class="col-6">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Descrição:</h4>
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; min-height: 80px;">
+        <%= molde.descricao %>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-6">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Cliente:</h4>
+          <p style="margin: 0;"><%= molde.cliente.nome if molde.cliente.present? %></p>
+        </div>
+        <div class="col-6">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Tipo:</h4>
+          <p style="margin: 0;"><%= molde.tipo %></p>
+        </div>
+      </div>
+
+      <div class="row gtr-uniform" style="margin-top: 1.5em;">
+        <div class="col-6">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Status:</h4>
+          <div>
+            <% case molde.status %>
+            <% when "Ativo" %>
+              <span style="background-color: #28a745; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Ativo</span>
+            <% when "Em manutenção" %>
+              <span style="background-color: #ffc107; color: #212529; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Em manutenção</span>
+            <% when "Em desenvolvimento" %>
+              <span style="background-color: #17a2b8; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Em desenvolvimento</span>
+            <% when "Em teste" %>
+              <span style="background-color: #007bff; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Em teste</span>
+            <% when "Inativo" %>
+              <span style="background-color: #6c757d; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Inativo</span>
+            <% else %>
+              <%= molde.status %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-6">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Responsável:</h4>
+          <p style="margin: 0;"><%= molde.responsavel %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row gtr-uniform" style="margin-top: 2em;">
+    <div class="col-6">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Data de Criação:</h4>
+      <p style="margin: 0;"><%= molde.data_criacao.strftime("%d/%m/%Y") if molde.data_criacao.present? %></p>
+    </div>
+    <div class="col-6">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Data da Última Modificação:</h4>
+      <p style="margin: 0;"><%= molde.data_ultima_modificacao.strftime("%d/%m/%Y") if molde.data_ultima_modificacao.present? %></p>
+    </div>
+  </div>
+
+  <div class="row gtr-uniform" style="margin-top: 2em;">
+    <div class="col-12">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Observações:</h4>
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; min-height: 120px;">
+        <%= simple_format(molde.observacoes) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div id="wrapper">
+  <!-- Main -->
+  <div id="main">
+    <div class="inner">
+      <!-- Header -->
+      <header id="header" class="mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3>Detalhes do Processo</h3>
+          <%= link_to edit_processo_path(@processo), class: "button primary small", style: "background-color: #043d11;" do %>
+            <i class="fas fa-edit"></i> EDITAR PROCESSO
+          <% end %>
+        </div>
+      </header>
+
+      <% if notice.present? %>
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+          <p style="color: green; margin: 0;"><%= notice %></p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <section>
+        <%= render @processo %>
+
+        <div style="margin-top: 3em;">
+          <div class="d-flex justify-content-between">
+            <%= link_to processos_path, class: "button", style: "background-color: #1c5846; color: white;" do %>
+              <i class="fas fa-arrow-left mr-1"></i> VOLTAR PARA PROCESSOS
+            <% end %>
+
+            <div>
+              <%= link_to edit_processo_path(@processo), class: "button", style: "background-color: #1c5846; color: white; margin-right: 10px;" do %>
+                <i class="fas fa-edit mr-1"></i> EDITAR ESTE PROCESSO
+              <% end %>
+
+              <%= button_to @processo, method: :delete, class: "button", style: "background-color: #dc3545; color: white;", form: { style: 'display: inline-block;' }, data: { turbo_confirm: "Tem certeza que deseja excluir este processo?" } do %>
+                <i class="fas fa-trash mr-1"></i> EXCLUIR ESTE PROCESSO
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <%= render "shared/sidebar" %>
+</div>
