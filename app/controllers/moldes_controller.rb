@@ -58,6 +58,15 @@ class MoldesController < ApplicationController
     end
   end
 
+  def search
+    @query = params[:search]
+
+    if @query.present?
+      @moldes = Molde.where("descricao LIKE ?", "%#{@query}%" ).includes(:cliente)
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_molde
@@ -66,6 +75,6 @@ class MoldesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def molde_params
-      params.require(:molde).permit(:codigo, :descricao, :cliente_id, :tipo, :status, :data_criacao, :data_ultima_modificacao, :responsavel, :observacoes)
+      params.require(:molde).permit(:codigo, :descricao, :cliente_id, :tipo, :status, :data_criacao, :data_ultima_modificacao, :responsavel, :observacoes, :search)
     end
 end

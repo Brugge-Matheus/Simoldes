@@ -21,7 +21,11 @@ default: &default
 
 development:
   <<: *default
+  host: localhost
   database: simoldes
+  username: brugge-matheus
+  password: 291005
+  port: 5432
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.

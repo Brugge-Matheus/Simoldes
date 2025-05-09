@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div data-controller="hello" id="wrapper">
   <!-- Main -->
   <div id="main">
     <div class="inner">
@@ -15,7 +15,7 @@
       <% if notice.present? %>
         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
           <%= notice %>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <button id="btn-close-flash" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% end %>
 
@@ -64,7 +64,7 @@
                       <%= link_to edit_molde_path(molde), class: "btn btn-sm btn-outline-secondary", title: "Editar" do %>
                         <i class="fas fa-edit"></i>
                       <% end %>
-                      <%= link_to molde, method: :delete, data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja excluir este molde?" }, class: "btn btn-sm btn-outline-danger", title: "Excluir" do %>
+                      <%= link_to  molde_path(molde), data: { turbo_method: :delete}, class: "btn btn-sm btn-outline-danger", title: "Excluir" do %>
                         <i class="fas fa-trash"></i>
                       <% end %>
                     </div>

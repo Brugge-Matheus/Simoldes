@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root 'home#index'
-  devise_for :users
+  get "search", to: "moldes#search"
 
+  devise_for :users
   resources :moldes
   resources :manutencaos
   resources :processos

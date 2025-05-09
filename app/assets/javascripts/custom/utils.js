@@ -1,5 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-    (function() {
+document.addEventListener('DOMContentLoaded', function () {
+
+    (function () {
+        
+        // Close flash alert
+        const flashAlert = document.querySelector('#btn-close-flash');
+        if (flashAlert) {
+            flashAlert.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.reload();
+            })
+        }
 
         // Create a global utility object
         window.util = {};
@@ -9,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
          * @param {HTMLElement} navElement - The navigation element to process
          * @return {string} HTML string of the generated list.
          */
-        window.util.navList = function(navElement) {
+        window.util.navList = function (navElement) {
             const links = navElement.querySelectorAll('a');
             const b = [];
 
-            links.forEach(function(link) {
+            links.forEach(function (link) {
                 const indent = Math.max(0, link.closest('li') ? getParentCount(link, 'li') - 1 : 0);
                 const href = link.getAttribute('href');
                 const target = link.getAttribute('target');
@@ -54,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
          * @param {object} userConfig - User configuration
          * @return {object} The panel controller
          */
-        window.util.panel = function(element, userConfig) {
+        window.util.panel = function (element, userConfig) {
             // No elements?
             if (!element) return null;
 
@@ -107,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 touchPosX: null,
                 touchPosY: null,
 
-                _hide: function(event) {
+                _hide: function (event) {
                     // Already hidden? Bail.
                     if (!config.target.classList.contains(config.visibleClass))
                         return;
@@ -122,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     config.target.classList.remove(config.visibleClass);
 
                     // Post-hide stuff.
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         // Reset scroll position.
                         if (config.resetScroll)
                             element.scrollTop = 0;
@@ -146,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 links.forEach(link => {
                     link.style.webkitTapHighlightColor = 'rgba(0,0,0,0)';
 
-                    link.addEventListener('click', function(event) {
+                    link.addEventListener('click', function (event) {
                         const href = this.getAttribute('href');
                         const target = this.getAttribute('target');
 
@@ -161,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         panel._hide();
 
                         // Redirect to href.
-                        window.setTimeout(function() {
+                        window.setTimeout(function () {
                             if (target === '_blank')
                                 window.open(href);
                             else
@@ -172,13 +182,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Event: Touch start
-            element.addEventListener('touchstart', function(event) {
+            element.addEventListener('touchstart', function (event) {
                 panel.touchPosX = event.touches[0].pageX;
                 panel.touchPosY = event.touches[0].pageY;
             });
 
             // Event: Touch move
-            element.addEventListener('touchmove', function(event) {
+            element.addEventListener('touchmove', function (event) {
                 if (panel.touchPosX === null || panel.touchPosY === null)
                     return;
 
@@ -228,14 +238,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Event: Prevent certain events inside the panel from bubbling.
             ['click', 'touchend', 'touchstart', 'touchmove'].forEach(eventType => {
-                element.addEventListener(eventType, function(event) {
+                element.addEventListener(eventType, function (event) {
                     event.stopPropagation();
                 });
             });
 
             // Event: Hide panel if a child anchor tag pointing to its ID is clicked.
             element.querySelectorAll('a[href="#' + id + '"]').forEach(link => {
-                link.addEventListener('click', function(event) {
+                link.addEventListener('click', function (event) {
                     event.preventDefault();
                     event.stopPropagation();
                     config.target.classList.remove(config.visibleClass);
@@ -244,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Body: Event: Hide panel on body click/tap.
             ['click', 'touchend'].forEach(eventType => {
-                document.body.addEventListener(eventType, function(event) {
+                document.body.addEventListener(eventType, function (event) {
                     // Check if the click is not inside the panel
                     if (!element.contains(event.target)) {
                         panel._hide(event);
@@ -254,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Body: Event: Toggle.
             document.body.querySelectorAll('a[href="#' + id + '"]').forEach(link => {
-                link.addEventListener('click', function(event) {
+                link.addEventListener('click', function (event) {
                     event.preventDefault();
                     event.stopPropagation();
                     config.target.classList.toggle(config.visibleClass);
@@ -263,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Window: Event: Hide on ESC.
             if (config.hideOnEscape) {
-                window.addEventListener('keydown', function(event) {
+                window.addEventListener('keydown', function (event) {
                     if (event.keyCode == 27)
                         panel._hide(event);
                 });
@@ -277,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
          * @param {HTMLElement|NodeList} elements - Form element(s) to apply to
          * @return {object} The controller object
          */
-        window.util.placeholder = function(elements) {
+        window.util.placeholder = function (elements) {
             // Browser natively supports placeholders? Bail.
             if (typeof (document.createElement('input')).placeholder !== 'undefined')
                 return null;
@@ -288,18 +298,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // Convert to array if it's a NodeList
             const elementsArray = elements instanceof NodeList ? Array.from(elements) : [elements];
 
-            elementsArray.forEach(function(form) {
+            elementsArray.forEach(function (form) {
                 // Text, TextArea.
                 const textInputs = form.querySelectorAll('input[type=text],textarea');
 
-                textInputs.forEach(function(input) {
+                textInputs.forEach(function (input) {
                     if (input.value === '' || input.value === input.getAttribute('placeholder')) {
                         input.classList.add('polyfill-placeholder');
                         input.value = input.getAttribute('placeholder');
                     }
 
                     // Event: blur
-                    input.addEventListener('blur', function() {
+                    input.addEventListener('blur', function () {
                         if (this.getAttribute('name').match(/-polyfill-field$/))
                             return;
 
@@ -310,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     // Event: focus
-                    input.addEventListener('focus', function() {
+                    input.addEventListener('focus', function () {
                         if (this.getAttribute('name').match(/-polyfill-field$/))
                             return;
 
@@ -324,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Password inputs
                 const passwordInputs = form.querySelectorAll('input[type=password]');
 
-                passwordInputs.forEach(function(input) {
+                passwordInputs.forEach(function (input) {
                     // Create clone
                     const newInput = document.createElement('input');
                     newInput.type = 'text';
@@ -358,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
 
                     // Event: blur (original)
-                    input.addEventListener('blur', function(event) {
+                    input.addEventListener('blur', function (event) {
                         event.preventDefault();
 
                         const polyfillField = input.parentNode.querySelector('input[name=' + input.getAttribute('name') + '-polyfill-field]');
@@ -370,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     // Event: focus (clone)
-                    newInput.addEventListener('focus', function(event) {
+                    newInput.addEventListener('focus', function (event) {
                         event.preventDefault();
 
                         const originalField = newInput.parentNode.querySelector('input[name=' + newInput.getAttribute('name').replace('-polyfill-field', '') + ']');
@@ -381,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     // Event: keypress (clone)
-                    newInput.addEventListener('keypress', function(event) {
+                    newInput.addEventListener('keypress', function (event) {
                         event.preventDefault();
                         newInput.value = '';
                     });
@@ -390,10 +400,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Events for the form
 
                 // Submit event
-                form.addEventListener('submit', function() {
+                form.addEventListener('submit', function () {
                     const textInputs = form.querySelectorAll('input[type=text],input[type=password],textarea');
 
-                    textInputs.forEach(function(input) {
+                    textInputs.forEach(function (input) {
                         if (input.getAttribute('name').match(/-polyfill-field$/)) {
                             input.setAttribute('name', '');
                         }
@@ -406,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 // Reset event
-                form.addEventListener('reset', function(event) {
+                form.addEventListener('reset', function (event) {
                     event.preventDefault();
 
                     // Reset selects
@@ -415,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     // Reset inputs and textareas
-                    form.querySelectorAll('input,textarea').forEach(function(input) {
+                    form.querySelectorAll('input,textarea').forEach(function (input) {
                         input.classList.remove('polyfill-placeholder');
 
                         switch (input.type) {
@@ -470,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
          * @param {HTMLElement|NodeList|string} elements - Elements to move
          * @param {boolean} condition - If true, moves elements to the top. Otherwise, moves elements back to their original locations.
          */
-        window.util.prioritize = function(elements, condition) {
+        window.util.prioritize = function (elements, condition) {
             const key = '__prioritize';
 
             // Convert selector to elements if it's a string
@@ -484,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 : (elements instanceof HTMLElement ? [elements] : []);
 
             // Step through elements
-            elementsArray.forEach(function(element) {
+            elementsArray.forEach(function (element) {
                 const parent = element.parentNode;
 
                 // No parent? Bail.
