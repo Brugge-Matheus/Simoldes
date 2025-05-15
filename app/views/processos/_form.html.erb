@@ -1,0 +1,138 @@
+<div class="row shadow rounded overflow-hidden">
+  <div class="col-md-5 py-3 px-4" style="background-color: #1c5846;">
+    <div class="text-center mb-3">
+      <% if processo.persisted? %>
+        <h2 class="text-white position-relative pb-1">Editando <%= processo.nome_processo %></h2>
+      <% else %>
+        <h2 class="text-white position-relative pb-1">Cadastro de Processo</h2>
+      <% end%>
+      <div class="border-bottom mx-auto mt-1" style="width: 6rem; height: 0.2rem; background-color: #043d11;"></div>
+    </div>
+
+    <%= form_with(model: processo, class: "w-100", data: { turbo: true }) do |form| %>
+      <% if processo.errors.any? %>
+        <div class="alert alert-danger py-2">
+          <p class="mb-0"><%= pluralize(processo.errors.count, "erro") %> impediram este processo de ser salvo</p>
+        </div>
+      <% end %>
+
+      <div class="mb-2">
+        <%= form.label :molde_id, "Molde", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-cube text-secondary"></i>
+          </span>
+          <%= form.collection_select :molde_id, Molde.all, :id, :codigo,
+                                     { prompt: "Selecione o molde" },
+                                     { class: "form-select border-0 shadow-sm",
+                                       style: "border-radius: 0 8px 8px 0;" } %>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <%= form.label :nome_processo, "Nome do Processo", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-tag text-secondary"></i>
+          </span>
+          <%= form.text_field :nome_processo, class: "form-control border-0 shadow-sm",
+                              style: "border-radius: 0 8px 8px 0;",
+                              placeholder: "Ex: Usinagem, Montagem, etc." %>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-md-6 mb-2">
+          <%= form.label :data_inicio, "Data de Início", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-calendar-day text-secondary"></i>
+            </span>
+            <%= form.date_field :data_inicio, class: "form-control border-0 shadow-sm",
+                                style: "border-radius: 0 8px 8px 0;" %>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <%= form.label :data_prevista_fim, "Data Prevista de Fim", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-calendar-alt text-secondary"></i>
+            </span>
+            <%= form.date_field :data_prevista_fim, class: "form-control border-0 shadow-sm",
+                                style: "border-radius: 0 8px 8px 0;" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-md-6 mb-2">
+          <%= form.label :data_fim, "Data de Conclusão", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-calendar-check text-secondary"></i>
+            </span>
+            <%= form.date_field :data_fim, class: "form-control border-0 shadow-sm",
+                                style: "border-radius: 0 8px 8px 0;" %>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <%= form.label :status, "Status", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-tasks text-secondary"></i>
+            </span>
+            <%= form.select :status,
+                            [
+                              ["Concluído", "Concluído"],
+                              ["Em andamento", "Em andamento"],
+                              ["Pendente", "Pendente"],
+                              ["Atrasado", "Atrasado"],
+                              ["Cancelado", "Cancelado"]
+                            ],
+                            { prompt: "Selecione o status" },
+                            { class: "form-select border-0 shadow-sm",
+                              style: "border-radius: 0 8px 8px 0;" } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <%= form.label :responsavel, "Responsável", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-user text-secondary"></i>
+          </span>
+          <%= form.text_field :responsavel, class: "form-control border-0 shadow-sm",
+                              style: "border-radius: 0 8px 8px 0;",
+                              placeholder: "Nome do responsável" %>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :observacoes, "Observações", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-comment-alt text-secondary"></i>
+          </span>
+          <%= form.text_area :observacoes, class: "form-control border-0 shadow-sm",
+                             style: "border-radius: 0 8px 8px 0;",
+                             placeholder: "Adicione observações relevantes", rows: 2 %>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-3">
+
+        <%= form.submit "CADASTRAR PROCESSO", class: "btn btn-sm text-white fw-medium border-0 rounded text-uppercase",
+                        style: "background-color: #043d11; letter-spacing: 0.5px; font-size: 0.8rem;" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-7 bg-white d-flex justify-content-center align-items-center p-0">
+    <div class="text-center">
+      <%= image_tag "Simoldes.jpg", alt: "imagem-processo", class: "img-fluid", style: "max-height: 400px;" %>
+    </div>
+  </div>
+</div>

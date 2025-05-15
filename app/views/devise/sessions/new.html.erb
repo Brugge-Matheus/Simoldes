@@ -1,0 +1,46 @@
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center bg-dark">
+  <div class="row shadow w-75 h-75 rounded overflow-hidden">
+    <div class="col-md-7 bg-white d-flex justify-content-center align-items-center p-0">
+      <div class="slide-in-left">
+        <%= image_tag "Simoldes.jpg", alt: "imagem-formulario", class: "img-fluid" %>
+      </div>
+    </div>
+
+    <div class="col-md-5 py-5 px-4 d-flex flex-column justify-content-center align-items-center" style="background-color: #1c5846;">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "w-100", data: {turbo: false}) do |f| %>
+        <div class="text-center mb-5">
+          <h1 class="text-white position-relative pb-2">Faça seu login</h1>
+          <div class="border-bottom mx-auto mt-2" style="width: 5rem; height: 0.3rem; background-color: #043d11;"></div>
+        </div>
+
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="mb-4">
+          <%= f.label :email, class: "form-label text-white" %>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-0" style="border-radius: 10px 0 0 10px;">
+              <i class="fas fa-envelope text-secondary"></i>
+            </span>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Digite seu e-mail", class: "form-control border-0 shadow-sm", style: "border-radius: 0 10px 10px 0; padding: 0.8rem 1.4rem;" %>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, class: "form-label text-white" %>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-0" style="border-radius: 10px 0 0 10px;">
+              <i class="fas fa-lock text-secondary"></i>
+            </span>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: "Digite sua senha", class: "form-control border-0 shadow-sm", style: "border-radius: 0 10px 10px 0; padding: 0.8rem 1.4rem;" %>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <button type="submit" class="btn py-2 text-white fw-medium border-0 rounded" style="background-color: #043d1190; padding: 0.8rem 6rem;">
+            Entrar
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

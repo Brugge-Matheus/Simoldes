@@ -1,0 +1,74 @@
+<div id="<%= dom_id manutencao %>" class="box" style="border-radius: 5px; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+  <div style="border-bottom: 2px solid #1c5846; padding-bottom: 15px; margin-bottom: 25px;">
+    <h2 style="color: #1c5846; margin: 0; font-size: 1.7em;">Manutenção do Molde: <%= manutencao.molde.codigo if manutencao.molde.present? %></h2>
+  </div>
+
+  <div class="row gtr-uniform">
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Tipo de Manutenção:</h4>
+          <div style="margin: 0;">
+            <% case manutencao.tipo_manutencao %>
+            <% when "Preventiva" %>
+              <span style="background-color: #28a745; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Preventiva</span>
+            <% when "Corretiva" %>
+              <span style="background-color: #dc3545; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Corretiva</span>
+            <% when "Preditiva" %>
+              <span style="background-color: #17a2b8; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Preditiva</span>
+            <% when "Ajuste" %>
+              <span style="background-color: #ffc107; color: #212529; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Ajuste</span>
+            <% else %>
+              <span style="background-color: #6c757d; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;"><%= manutencao.tipo_manutencao %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row gtr-uniform" style="margin-top: 1.5em;">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Data da Manutenção:</h4>
+          <p style="margin: 0;"><%= manutencao.data_manutencao.strftime("%d/%m/%Y") if manutencao.data_manutencao.present? %></p>
+        </div>
+      </div>
+
+      <div class="row gtr-uniform" style="margin-top: 1.5em;">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Custo:</h4>
+          <p style="margin: 0; font-weight: bold; font-size: 1.2em; color: #1c5846;">
+            <%= number_to_currency(manutencao.custo, unit: "R$", separator: ",", delimiter: ".") %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Responsável:</h4>
+      <p style="margin: 0;"><%= manutencao.responsavel %></p>
+
+      <div style="margin-top: 1.5em;">
+        <h4 style="color: #3d4449; margin-bottom: 0.5em;">Detalhes do Molde:</h4>
+        <% if manutencao.molde.present? %>
+          <p style="margin: 0 0 0.3em 0;"><strong>Código:</strong> <%= manutencao.molde.codigo %></p>
+          <p style="margin: 0 0 0.3em 0;"><strong>Cliente:</strong> <%= manutencao.molde.cliente.nome if manutencao.molde.cliente.present? %></p>
+          <p style="margin: 0;">
+            <%= link_to molde_path(manutencao.molde), class: "button small", style: "background-color: #1c5846; color: white; margin-top: 0.5em;" do %>
+              <i class="fas fa-eye mr-1"></i> Visualizar Molde
+            <% end %>
+          </p>
+        <% else %>
+          <p style="margin: 0; color: #dc3545;">Molde não encontrado</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row gtr-uniform" style="margin-top: 2em;">
+    <div class="col-12">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Descrição:</h4>
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; min-height: 120px;">
+        <%= simple_format(manutencao.descricao) %>
+      </div>
+    </div>
+  </div>
+</div>

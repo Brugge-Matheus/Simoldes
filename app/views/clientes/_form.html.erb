@@ -1,0 +1,93 @@
+<div class="row shadow rounded overflow-hidden">
+  <div class="col-md-5 py-3 px-4" style="background-color: #1c5846;">
+    <div class="text-center mb-3">
+      <% if cliente.persisted? %>
+        <h2 class="text-white position-relative pb-1">Editando <%= cliente.nome %></h2>
+      <% else %>
+        <h2 class="text-white position-relative pb-1">Cadastro de Cliente</h2>
+      <% end%>
+      <div class="border-bottom mx-auto mt-1" style="width: 6rem; height: 0.2rem; background-color: #043d11;"></div>
+    </div>
+
+    <%= form_with(model: cliente, class: "w-100", data: { turbo: true }) do |form| %>
+      <% if cliente.errors.any? %>
+        <div class="alert alert-danger py-2">
+          <p class="mb-0"><%= pluralize(cliente.errors.count, "erro") %> impediram este cliente de ser salvo</p>
+        </div>
+      <% end %>
+
+      <div class="mb-2">
+        <%= form.label :nome, "Nome da Empresa", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-building text-secondary"></i>
+          </span>
+          <%= form.text_field :nome, class: "form-control border-0 shadow-sm",
+                              style: "border-radius: 0 8px 8px 0;",
+                              placeholder: "Nome completo da empresa" %>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-md-6 mb-2">
+          <%= form.label :cnpj, "CNPJ", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-id-card text-secondary"></i>
+            </span>
+            <%= form.text_field :cnpj, class: "form-control border-0 shadow-sm",
+                                style: "border-radius: 0 8px 8px 0;",
+                                placeholder: "00.000.000/0000-00" %>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <%= form.label :telefone, "Telefone", class: "form-label text-white small mb-1" %>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+              <i class="fas fa-phone-alt text-secondary"></i>
+            </span>
+            <%= form.text_field :telefone, class: "form-control border-0 shadow-sm",
+                                style: "border-radius: 0 8px 8px 0;",
+                                placeholder: "(00) 0000-0000" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <%= form.label :email, "E-mail", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-envelope text-secondary"></i>
+          </span>
+          <%= form.email_field :email, class: "form-control border-0 shadow-sm",
+                               style: "border-radius: 0 8px 8px 0;",
+                               placeholder: "contato@empresa.com" %>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :contato_principal, "Contato Principal", class: "form-label text-white small mb-1" %>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-white border-0" style="border-radius: 8px 0 0 8px;">
+            <i class="fas fa-user text-secondary"></i>
+          </span>
+          <%= form.text_field :contato_principal, class: "form-control border-0 shadow-sm",
+                              style: "border-radius: 0 8px 8px 0;",
+                              placeholder: "Nome do contato principal" %>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-3">
+        <%= form.submit "CADASTRAR CLIENTE", class: "btn btn-sm text-white fw-medium border-0 rounded text-uppercase",
+                        style: "background-color: #043d11; letter-spacing: 0.5px; font-size: 0.8rem;" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-7 bg-white d-flex justify-content-center align-items-center p-0">
+    <div class="text-center">
+      <%= image_tag "Simoldes.jpg", alt: "imagem-cliente", class: "img-fluid", style: "max-height: 400px;" %>
+    </div>
+  </div>
+</div>

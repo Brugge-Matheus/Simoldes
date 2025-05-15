@@ -1,0 +1,18 @@
+body {
+    font-family: 'Afacad Flux', sans-serif;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-70px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 1.9s ease-out;
+}

@@ -1,0 +1,129 @@
+<div id="<%= dom_id processo %>" class="box" style="border-radius: 5px; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+  <div style="border-bottom: 2px solid #1c5846; padding-bottom: 15px; margin-bottom: 25px;">
+    <h2 style="color: #1c5846; margin: 0; font-size: 1.7em;"><%= processo.nome_processo %></h2>
+  </div>
+
+  <div class="row gtr-uniform">
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Status do Processo:</h4>
+          <div style="margin: 0;">
+            <% case processo.status %>
+            <% when "Em andamento" %>
+              <span style="background-color: #007bff; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Em andamento</span>
+            <% when "Concluído" %>
+              <span style="background-color: #28a745; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Concluído</span>
+            <% when "Atrasado" %>
+              <span style="background-color: #dc3545; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Atrasado</span>
+            <% when "Em planejamento" %>
+              <span style="background-color: #17a2b8; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Em planejamento</span>
+            <% when "Suspenso" %>
+              <span style="background-color: #ffc107; color: #212529; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Suspenso</span>
+            <% when "Cancelado" %>
+              <span style="background-color: #6c757d; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;">Cancelado</span>
+            <% else %>
+              <span style="background-color: #6c757d; color: white; padding: 5px 15px; border-radius: 25px; font-size: 0.9em;"><%= processo.status %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row gtr-uniform" style="margin-top: 1.5em;">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Período do Processo:</h4>
+          <table style="margin: 0; width: 100%;">
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Data de Início:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><%= processo.data_inicio.strftime("%d/%m/%Y") if processo.data_inicio.present? %></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Previsão de Término:</strong></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><%= processo.data_prevista_fim.strftime("%d/%m/%Y") if processo.data_prevista_fim.present? %></td>
+            </tr>
+            <% if processo.data_fim.present? %>
+              <tr>
+                <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Data de Conclusão:</strong></td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;">
+                  <% if processo.data_fim > processo.data_prevista_fim %>
+                    <span style="color: #dc3545;"><%= processo.data_fim.strftime("%d/%m/%Y") %> (atrasado)</span>
+                  <% else %>
+                    <span style="color: #28a745;"><%= processo.data_fim.strftime("%d/%m/%Y") %> (no prazo)</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Responsável:</h4>
+          <p style="margin: 0;"><%= processo.responsavel %></p>
+        </div>
+      </div>
+
+      <div class="row gtr-uniform" style="margin-top: 1.5em;">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Detalhes do Molde:</h4>
+          <% if processo.molde.present? %>
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+              <p style="margin: 0 0 0.3em 0;"><strong>Código:</strong> <%= processo.molde.codigo %></p>
+              <p style="margin: 0 0 0.3em 0;"><strong>Cliente:</strong> <%= processo.molde.cliente.nome if processo.molde.cliente.present? %></p>
+              <p style="margin: 0 0 0.3em 0;"><strong>Tipo:</strong> <%= processo.molde.tipo %></p>
+              <p style="margin: 0;">
+                <%= link_to molde_path(processo.molde), class: "button small", style: "background-color: #1c5846; color: white; margin-top: 0.5em;" do %>
+                  <i class="fas fa-eye mr-1"></i> Visualizar Molde
+                <% end %>
+              </p>
+            </div>
+          <% else %>
+            <p style="margin: 0; color: #dc3545;">Molde não encontrado</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row gtr-uniform" style="margin-top: 2em;">
+    <div class="col-12">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Observações:</h4>
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; min-height: 120px;">
+        <%= simple_format(processo.observacoes) %>
+      </div>
+    </div>
+  </div>
+
+  <% if processo.status == "Em andamento" || processo.status == "Atrasado" %>
+    <div class="row gtr-uniform" style="margin-top: 2em;">
+      <div class="col-12">
+        <h4 style="color: #3d4449; margin-bottom: 0.5em;">Progresso do Processo:</h4>
+        <%
+          dias_totais = (processo.data_prevista_fim - processo.data_inicio).to_i
+          dias_passados = (Date.today - processo.data_inicio).to_i
+          porcentagem = [(dias_passados.to_f / dias_totais * 100), 100].min
+
+          cor_barra = case processo.status
+                      when "Atrasado" then "#dc3545"
+                      when "Em andamento" then "#007bff"
+                      else "#28a745"
+                      end
+        %>
+
+        <div style="background-color: #e9ecef; border-radius: 5px; height: 25px; overflow: hidden;">
+          <div style="width: <%= porcentagem %>%; background-color: <%= cor_barra %>; height: 100%;"></div>
+        </div>
+        <p style="margin: 0.5em 0 0 0; text-align: right; font-size: 0.9em;">
+          <% if processo.status == "Atrasado" %>
+            <span style="color: #dc3545;">Atrasado - <%= porcentagem.round %>% do prazo utilizado</span>
+          <% else %>
+            <%= porcentagem.round %>% do prazo utilizado
+          <% end %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,113 @@
+<div id="<%= dom_id cliente %>" class="box" style="border-radius: 5px; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+  <div style="border-bottom: 2px solid #1c5846; padding-bottom: 15px; margin-bottom: 25px;">
+    <h2 style="color: #1c5846; margin: 0; font-size: 1.7em;"><%= cliente.nome %></h2>
+    <p style="margin: 5px 0 0 0; color: #6c757d; font-size: 0.9em;">
+      <% if cliente.cnpj.present? %>
+        CNPJ: <%= cliente.cnpj %>
+      <% end %>
+    </p>
+  </div>
+
+  <div class="row gtr-uniform">
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Informações de Contato</h4>
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+            <p style="margin: 0 0 0.8em 0;">
+              <i class="fas fa-user" style="color: #1c5846; width: 20px;"></i>
+              <strong>Contato Principal:</strong> <%= cliente.contato_principal %>
+            </p>
+            <p style="margin: 0 0 0.8em 0;">
+              <i class="fas fa-envelope" style="color: #1c5846; width: 20px;"></i>
+              <strong>Email:</strong>
+              <a href="mailto:<%= cliente.email %>" style="color: #1c5846;"><%= cliente.email %></a>
+            </p>
+            <p style="margin: 0;">
+              <i class="fas fa-phone" style="color: #1c5846; width: 20px;"></i>
+              <strong>Telefone:</strong> <%= cliente.telefone %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row gtr-uniform">
+        <div class="col-12">
+          <h4 style="color: #3d4449; margin-bottom: 0.5em;">Projetos Ativos</h4>
+          <%
+            moldes_ativos = Molde.where(cliente_id: cliente.id).where(status: ["Ativo", "Em desenvolvimento", "Em teste", "Em manutenção"]).count rescue 0
+            processos_ativos = Processo.joins(:molde).where(moldes: { cliente_id: cliente.id }).where(status: ["Em andamento", "Em planejamento"]).count rescue 0
+          %>
+
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+            <div class="row gtr-uniform">
+              <div class="col-6" style="text-align: center; padding: 10px; border-right: 1px solid #e0e0e0;">
+                <h3 style="margin: 0; color: #1c5846; font-size: 2em;"><%= moldes_ativos %></h3>
+                <p style="margin: 0; color: #6c757d;">Moldes Ativos</p>
+              </div>
+              <div class="col-6" style="text-align: center; padding: 10px;">
+                <h3 style="margin: 0; color: #1c5846; font-size: 2em;"><%= processos_ativos %></h3>
+                <p style="margin: 0; color: #6c757d;">Processos Ativos</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 15px; text-align: center;">
+              <%= link_to moldes_path(cliente: cliente.id), class: "button small", style: "background-color: #1c5846; color: white;" do %>
+                <i class="fas fa-search mr-1"></i> Ver Moldes deste Cliente
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row gtr-uniform" style="margin-top: 2em;">
+    <div class="col-12">
+      <h4 style="color: #3d4449; margin-bottom: 0.5em;">Histórico de Compras</h4>
+      <%
+        tem_historico = true
+      %>
+
+      <% if tem_historico %>
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+          <table style="width: 100%; margin: 0;">
+            <thead>
+            <tr class="text-white" style="background-color: #1c5846;">
+              <th class="text-white" style="padding: 10px;">Data</th>
+              <th class="text-white" style="padding: 10px; ">Tipo</th>
+              <th class="text-white" style="padding: 10px; ">Valor</th>
+              <th class="text-white" style="padding: 10px; ">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Dados simulados para fins de demonstração -->
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">12/04/2023</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Desenvolvimento de Molde</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">R$ 25.000,00</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">
+                <span style="background-color: #28a745; color: white; padding: 3px 10px; border-radius: 25px; font-size: 0.8em;">Pago</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">27/02/2023</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Manutenção</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">R$ 3.800,00</td>
+              <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">
+                <span style="background-color: #28a745; color: white; padding: 3px 10px; border-radius: 25px; font-size: 0.8em;">Pago</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+          <p style="margin: 0; color: #6c757d;">Nenhum histórico de compras disponível para este cliente.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
