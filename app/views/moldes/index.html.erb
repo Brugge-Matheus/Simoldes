@@ -58,7 +58,7 @@
             <div class="col-md">
               <%= f.label :responsavel, "Responsável", class: "form-label" %>
               <%= f.select :responsavel,
-               @all_moldes.all_responsible.map { |responsible| [responsible.responsavel ,responsible.responsavel] },
+               @all_moldes.all_responsible.map { |responsible| [filter_responsibles_to_show(responsible.responsavel) ,responsible.responsavel] },
                { include_blank: "Todos os responsáveis", selected: @filters[:responsavel] },
                { class: "form-select" }
               %>
