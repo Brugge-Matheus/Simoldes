@@ -7,12 +7,12 @@
         <div class="d-flex justify-content-between align-items-center">
           <h3>Moldes</h3>
           <div class="d-flex align-items-center">
-          <%= link_to new_molde_path, class: "btn btn-sm text-white fw-medium border-0 rounded", style: "background-color: #043d11; padding: 0.5rem 1.5rem; margin-right:20px  " do %>
-            <i class="fas fa-plus me-1"></i> Novo molde
-          <% end %>
-          <%= link_to "#", class: "btn btn-sm text-white fw-medium border-0 rounded", style: "background-color: #043d11; padding: 0.5rem 1.5rem;" do %>
-            <i class="fas fa-file-import me-1"></i> Importar
-          <% end %>
+            <%= link_to new_molde_path, class: "btn btn-sm text-white fw-medium border-0 rounded", style: "background-color: #043d11; padding: 0.5rem 1.5rem; margin-right:20px  " do %>
+              <i class="fas fa-plus me-1"></i> Novo molde
+            <% end %>
+            <button type="button" class="btn btn-sm text-white fw-medium border-0 rounded" style="background-color: #043d11; padding: 0.5rem 1.5rem;" data-bs-toggle="modal" data-bs-target="#importModal">
+              <i class="fas fa-file-import me-1"></i> Importar
+            </button>
           </div>
         </div>
       </header>
@@ -24,61 +24,61 @@
         </div>
       <% end %>
 
-      
+
 
       <section>
         <!-- Filtros -->
-      <div class="card mb-4">
-        <div class="card-body">
-          <%= form_with url: moldes_path, method: :get, class: "row g-3" do |f| %>
-            <div class="col-md">
-              <%= f.label :cliente, "Cliente", class: "form-label" %>
-              <%= f.select :cliente,
-               Cliente.all.map { |c| [c.nome, c.id] },
-               { include_blank: "Todos os clientes", selected: @filters[:cliente] },
-               { class: "form-select" }
-              %>
-            </div>
-            <div class="col-md">
-              <%= f.label :tipo, "Tipo", class: "form-label" %>
-              <%= f.select :tipo,
-                @all_moldes.all_types.map { |tipo| [filter_types_to_show(tipo.tipo), tipo.tipo] },
-               { include_blank: "Todos os tipos", selected: @filters[:tipo] },
-               { class: "form-select" }
-              %>
-            </div>
-            <div class="col-md">
-              <%= f.label :status, "Status", class: "form-label" %>
-              <%= f.select :status,
-               @all_moldes.all_status.map { |status| [filter_status_to_show(status.status), status.status] },
-               { include_blank: "Todos os status", selected: @filters[:status] },
-               { class: "form-select" }
-              %>
-            </div>
-            <div class="col-md">
-              <%= f.label :responsavel, "Responsável", class: "form-label" %>
-              <%= f.select :responsavel,
-               @all_moldes.all_responsible.map { |responsible| [filter_responsibles_to_show(responsible.responsavel) ,responsible.responsavel] },
-               { include_blank: "Todos os responsáveis", selected: @filters[:responsavel] },
-               { class: "form-select" }
-              %>
-            </div>
-            <div class="col-md">
-              <%= f.label :codigo, "Código", class: "form-label" %>
-              <%= f.select :codigo,
-               @all_moldes.all_codes.map { |code| [code.codigo] },
-               { include_blank: "Todos os códigos", selected: @filters[:code] },
-               { class: "form-select" }
-              %>
-            </div>
-            <div class="col-12 mt-3 d-flex justify-content-end">
-              <input data-action="click->moldes--index#clearFilters" value="Limpar" type="reset" class="btn btn-outline-secondary me-2" style="background-color: #1c5846;">
-              <%= f.submit "Filtrar", class: "btn text-white", style: "background-color: #1c5846;" %>
-            </div>
-          <% end %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <%= form_with url: moldes_path, method: :get, class: "row g-3" do |f| %>
+              <div class="col-md">
+                <%= f.label :cliente, "Cliente", class: "form-label" %>
+                <%= f.select :cliente,
+                             Cliente.all.map { |c| [c.nome, c.id] },
+                             { include_blank: "Todos os clientes", selected: @filters[:cliente] },
+                             { class: "form-select" }
+                %>
+              </div>
+              <div class="col-md">
+                <%= f.label :tipo, "Tipo", class: "form-label" %>
+                <%= f.select :tipo,
+                             @all_moldes.all_types.map { |tipo| [filter_types_to_show(tipo.tipo), tipo.tipo] },
+                             { include_blank: "Todos os tipos", selected: @filters[:tipo] },
+                             { class: "form-select" }
+                %>
+              </div>
+              <div class="col-md">
+                <%= f.label :status, "Status", class: "form-label" %>
+                <%= f.select :status,
+                             @all_moldes.all_status.map { |status| [filter_status_to_show(status.status), status.status] },
+                             { include_blank: "Todos os status", selected: @filters[:status] },
+                             { class: "form-select" }
+                %>
+              </div>
+              <div class="col-md">
+                <%= f.label :responsavel, "Responsável", class: "form-label" %>
+                <%= f.select :responsavel,
+                             @all_moldes.all_responsible.map { |responsible| [filter_responsibles_to_show(responsible.responsavel) ,responsible.responsavel] },
+                             { include_blank: "Todos os responsáveis", selected: @filters[:responsavel] },
+                             { class: "form-select" }
+                %>
+              </div>
+              <div class="col-md">
+                <%= f.label :codigo, "Código", class: "form-label" %>
+                <%= f.select :codigo,
+                             @all_moldes.all_codes.map { |code| [code.codigo] },
+                             { include_blank: "Todos os códigos", selected: @filters[:code] },
+                             { class: "form-select" }
+                %>
+              </div>
+              <div class="col-12 mt-3 d-flex justify-content-end">
+                <input data-action="click->moldes--index#clearFilters" value="Limpar" type="reset" class="btn btn-outline-secondary me-2" style="background-color: #1c5846;">
+                <%= f.submit "Filtrar", class: "btn text-white", style: "background-color: #1c5846;" %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <!-- Fim Filtros -->
+        <!-- Fim Filtros -->
 
         <div class="table-wrapper">
           <table class="table table-striped table-hover alt">
@@ -145,6 +145,78 @@
           </table>
         </div>
       </section>
+    </div>
+  </div>
+
+  <!-- Modal de Importação -->
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #1c5846; color: white">
+          <span class="modal-title" id="importModalLabel">
+            <i class="fas fa-file-import me-2"></i>
+            Importar Planilha de Moldes
+          </span>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form data-action="submit->moldes--index#importFile" data-moldes--index-target="importForm">
+            <div class="mb-4">
+              <label for="excelFile" class="form-label fw-bold">
+                <i class="fas fa-file-excel me-1" style="color: #1c5846;"></i>
+                Selecione a planilha Excel (.xlsx, .xls)
+              </label>
+              <input type="file"
+                     class="form-control"
+                     id="excelFile"
+                     name="excel_file"
+                     accept=".xlsx,.xls"
+                     data-moldes--index-target="fileInput"
+                     data-action="change->moldes--index#handleFileSelect"
+                     required>
+              <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>
+                Formatos aceitos: .xlsx, .xls (máximo 10MB)
+              </div>
+            </div>
+
+            <div class="mb-4" data-moldes--index-target="fileInfo" style="display: none;">
+              <div class="card" style="border-left: 4px solid #1c5846;">
+                <div class="card-body">
+                  <h6 class="card-title mb-2">
+                    <i class="fas fa-file-check me-1" style="color: #1c5846;"></i>
+                    Arquivo Selecionado
+                  </h6>
+                  <p class="card-text mb-1">
+                    <strong>Nome:</strong> <span data-moldes--index-target="fileName"></span>
+                  </p>
+                  <p class="card-text mb-1">
+                    <strong>Tamanho:</strong> <span data-moldes--index-target="fileSize"></span>
+                  </p>
+                  <p class="card-text mb-0">
+                    <strong>Tipo:</strong> <span data-moldes--index-target="fileType"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" style="background-color: #1c5846;" class="btn" data-bs-dismiss="modal">
+            <i class="fas fa-times me-1"></i>
+            Cancelar
+          </button>
+          <button type="button"
+                  class="btn text-white"
+                  style="background-color: #1c5846;"
+                  data-action="click->moldes--index#processImport"
+                  data-moldes--index-target="importButton"
+                  disabled>
+            <i class="fas fa-upload me-1"></i>
+            <span data-moldes--index-target="importButtonText">Importar Planilha</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
